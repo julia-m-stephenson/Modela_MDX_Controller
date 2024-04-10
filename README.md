@@ -1,2 +1,51 @@
 # Modela_MDX_Controller
 This is a quick and dirty python program which will connect to MDX-15 Engraver and will allow setting of Z0 and transmission of prn files with H/W flow control
+
+The main core of this program is a port of this repo to python
+
+https://github.com/EDUARDOCHAMORRO/SimplyFab-20
+
+All credit to Eduardo Chamorro Martin he got me 90% there :-)
+
+The three issues this program solves which the above one doesn't is
+
+1) Software setting of Z0 - this means you can use the keyboard to acurately get the cutting tool to just touch the work piece top surface, and then tell the machine that this is Z0. This saves using the UP/DOWN keys on the machine itself - they are very laggy and work with the spindle on which can be a pain.
+
+2) The software reliquishes COM1 when it exits. Unfortaely on Windows 11 Eduardo's software always seems ot hold onto the resource handle even when it closes down which causes much annoyance.
+
+3) The software also makes use of the latest pySerial which implements flow control and thus can throttle file sending when the MDX-15 RX buffer is full.
+
+What it doesn't do is give you a fancy GUI interface its just a simple command line program that gets the job done.
+
+Requirements:-
+
+1) A Roland Modela MDX-15 (or MDX-20) others may be compatible.
+2) A PC with an actual physical serial port - most USB serial converters do not implement Hardware handshaking. I tested the software using a Dell Latitude E6410 with a Serial port provided by its docking stating. This was running Windows 10 Pro 22H2 which is 64Bit.
+3) Recent Python 3.x install (I used v3.12.2)
+4) PySerial v3.5
+5) The Roland 2.5D "printer" driver must not be assigned to the com port in use (currently only COM1 supported). I assigned it to COM2 which meant it could be used for material size and speeds and feeds for the Roland programs but couldn't directly print to the MDX-15. Instead you print to a file and use this program instead.
+
+A 9pin to 25pin NULL modem cable to connect the PC and 
+
+Documentation:-
+
+The following keys are accepted.
+
+5 - Change Jog size - Cycles round 100, 10 or 1 step(s)
+M - Set Z at material surface - not needed supersceded by "Z"
+D – drilling hole (150 steps deep)
+H - Move Machine to Home position X=0,Y=0,Z=Zmax - not needed
+I - Send standard Initialisation commands - not needed
+E - Exit the program gracefully
+0 – spindle motor Off
+1 – spindle motor On
+T - Got material surface - not needed
+L - Move Tool Right (X+)
+K - Move Tool Left (X-)
+U - Move Tool Away (Y+)
+J - Move Tool Towards (Y-)
+2 - Move Tool down (Z-) - uses Jog Steps
+8 - Move Tool up (Z+) - uses Jog Steps
+Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.
+G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.
+S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.
