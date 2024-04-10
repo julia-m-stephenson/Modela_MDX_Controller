@@ -11,7 +11,7 @@ The three issues this program solves which the above one doesn't is
 
 1) Software setting of Z0 - this means you can use the keyboard to acurately get the cutting tool to just touch the work piece top surface, and then tell the machine that this is Z0. This saves using the UP/DOWN keys on the machine itself - they are very laggy and work with the spindle on which can be a pain.
 
-2) The software reliquishes COM1 when it exits. Unfortaely on Windows 11 Eduardo's software always seems ot hold onto the resource handle even when it closes down which causes much annoyance.
+2) This software reliquishes COM1 when it exits. Unfortunately on Windows 11 Eduardo's software always seems to hold onto the resource handle even when it closes down which causes much annoyance.
 
 3) The software also makes use of the latest pySerial which implements flow control and thus can throttle file sending when the MDX-15 RX buffer is full.
 
@@ -20,12 +20,11 @@ What it doesn't do is give you a fancy GUI interface its just a simple command l
 Requirements:-
 
 1) A Roland Modela MDX-15 (or MDX-20) others may be compatible.
-2) A PC with an actual physical serial port - most USB serial converters do not implement Hardware handshaking. I tested the software using a Dell Latitude E6410 with a Serial port provided by its docking stating. This was running Windows 10 Pro 22H2 which is 64Bit.
+2) A PC with an actual physical serial port - most USB serial converters do not implement Hardware handshaking. I tested the software using a Dell Latitude E6410 with a Serial port provided by its docking station. This was running Windows 10 Pro 22H2 which is 64Bit.
 3) Recent Python 3.x install (I used v3.12.2)
 4) PySerial v3.5
 5) The Roland 2.5D "printer" driver must not be assigned to the com port in use (currently only COM1 supported). I assigned it to COM2 which meant it could be used for material size and speeds and feeds for the Roland programs but couldn't directly print to the MDX-15. Instead you print to a file and use this program instead.
-
-A 9pin to 25pin NULL modem cable to connect the PC and 
+6) A 9pin to 25pin NULL modem cable to connect the PC and 
 
 Documentation:-
 
@@ -49,3 +48,19 @@ J - Move Tool Towards (Y-)
 Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.
 G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.
 S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.
+
+Typical use would be :-
+
+MDX-15 Power ON (workpiece moves to Viewing position)
+Press View button (LED off) Tool moves to home position (x=0,y=0,z=zmax)
+Run mdx15_sender.py
+Press 2 to move down
+Press 0 to switch off motor
+Use 2 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece
+Press Z to set Z0
+Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn
+Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.
+E to exit
+View (LED on) to unload
+
+Alternate file ..\test\B_Neale_272_B.prn
