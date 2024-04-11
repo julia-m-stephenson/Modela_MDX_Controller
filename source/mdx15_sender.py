@@ -17,11 +17,19 @@ key_pressed=0
 skey_pressed=0
 gkey_pressed=0
 
+def writeToMDX(command):
+    ser.write(command.encode())
+    #time.sleep(1)
+    #print("RTS "+str(ser.cts)+"DSR"+str(ser.dsr)+"RI"+str(ser.ri)+"CD"+str(ser.cd))
+    while ser.dsr==False:
+        print("Zz")
+        time.sleep(1)# wait a second and see if printer is ready for more
+
 def setZRange(z1, z2):
     command = "!PZ" + str(z1) + "," + str(z2) +";"
     print(command)
     #print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
 
 #Open port at “9600,8,E,1”, non blocking HW handshaking:
 
@@ -34,13 +42,11 @@ print(ser.name)
 #initialize()
 setZRange(-1120, 0)
 
-
-
 def setMotorMode(mode):
     command = "!MC"+str(mode)+";"
     print(command)
     #print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
     #ser.write("!MC1;".encode())
 
 def initialize():
@@ -76,7 +82,7 @@ def moveXYZ( x1,  y1,  z1):
     command = "Z" + str(x) + ","  + str(y) + "," + str(z) +";"
     print(command)
     #print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
 
 def goToMaterialSurface():
     print("going to material surface")
@@ -114,12 +120,7 @@ def process_RML(filename):
                             #if tmp == 's':
                             #    continue
                             ##print(command.encode())
-                            ser.write(command.encode())
-                            #time.sleep(1)
-                            #print("RTS "+str(ser.cts)+"DSR"+str(ser.dsr)+"RI"+str(ser.ri)+"CD"+str(ser.cd))
-                            while ser.dsr==False:
-                                time.sleep(1)
-                                print("Zz")
+                            writeToMDX(command)
                         else:
                             print("Skipping ETX")
     except (FileNotFoundError, OSError):
@@ -136,12 +137,12 @@ def setZ0():
     command = "PR;"# Relative Coordinates
     print(command)
     ##print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
 
     command = "!ZO 0;"# Zero Here 
     print(command)
     ##print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
 
     z = 0;# Because we're in relative mode
 #experiment add this hopefully fix weird every key moves down bug.
@@ -149,7 +150,7 @@ def setZ0():
     command = "PA;"# Absolute Coordinates
     print(command)
     ##print(command.encode())
-    ser.write(command.encode())
+    writeToMDX(command)
 
     #myPort.write("!ZO"+z+";");# why change it again!!!
     #print("!ZO"+z+";");
