@@ -178,10 +178,10 @@ def old_keyboad():
                         if step==10:
                             step = 1
                 print("Step ="+str(step))
-            case '8':
+            case '9':
                 z += step
                 print("Z ="+str(z))
-            case '2':
+            case '3':
                 z -= step
                 print("Z ="+str(z))
             case 'M':
@@ -208,15 +208,15 @@ def old_keyboad():
                 print("motor on");
             case 'T':
                 goToMaterialSurface();
-            case 'L':# Right
+            case '6':# Right
                 x+=step;
-            case 'K':# Left
+            case '4':# Left
                 x-=step
                 if x<0:
                     x=0
-            case 'U':# Up
+            case '8':# Up
                 y+=step
-            case 'J':#Down
+            case '2':#Down
                 y-=step
                 if y<0:
                     y=0
@@ -261,10 +261,10 @@ def on_press(key):
                         if step==10:
                             step = 1
                 print("Step ="+str(step))
-            case '8':
+            case '9':
                 z += step
                 print("Z ="+str(z))
-            case '2':
+            case '3':
                 z -= step
                 print("Z ="+str(z))
             case 'M':
@@ -291,15 +291,15 @@ def on_press(key):
                 print("motor on");
             case 'T':
                 goToMaterialSurface();
-            case 'L':# Right
+            case '6':# Right
                 x+=step;
-            case 'K':# Left
+            case '4':# Left
                 x-=step
                 if x<0:
                     x=0
-            case 'U':# Up
+            case '8':# Up
                 y+=step
-            case 'J':#Down
+            case '2':#Down
                 y-=step
                 if y<0:
                     y=0
