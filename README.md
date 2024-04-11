@@ -1,4 +1,5 @@
-# Modela_MDX_Controller
+ Modela_MDX_Controller<br>
+
 This is a quick and dirty python program which will connect to MDX-15 Engraver and will allow setting of Z0 and transmission of prn files with H/W flow control
 
 The main core of this program is a port of this repo to python
@@ -30,37 +31,37 @@ Documentation:-
 
 The following keys are accepted.
 
-5 - Change Jog size - Cycles round 100, 10 or 1 step(s)
-M - Set Z at material surface - not needed supersceded by "Z"
-D – drilling hole (150 steps deep)
-H - Move Machine to Home position X=0,Y=0,Z=Zmax - not needed
-I - Send standard Initialisation commands - not needed
-E - Exit the program gracefully
-0 – spindle motor Off
-1 – spindle motor On
-T - Got material surface - not needed
-L - Move Tool Right (X+)
-K - Move Tool Left (X-)
-U - Move Tool Away (Y+)
-J - Move Tool Towards (Y-)
-2 - Move Tool down (Z-) - uses Jog Steps
-8 - Move Tool up (Z+) - uses Jog Steps
-Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.
-G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.
-S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.
-
-Typical use would be :-
-
-MDX-15 Power ON (workpiece moves to Viewing position)
-Press View button (LED off) Tool moves to home position (x=0,y=0,z=zmax)
-Run mdx15_sender.py
-Press 2 to move down
-Press 0 to switch off motor
-Use 2 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece
-Press Z to set Z0
-Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn
-Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.
-E to exit
-View (LED on) to unload
-
+5 - Change Jog size - Cycles round 100, 10 or 1 step(s)<br>
+M - Set Z at material surface - not needed supersceded by "Z"<br>
+D – drilling hole (150 steps deep)<br>
+H - Move Machine to Home position X=0,Y=0,Z=Zmax - not needed<br>
+I - Send standard Initialisation commands - not needed<br>
+E - Exit the program gracefully<br>
+0 – spindle motor Off<br>
+1 – spindle motor On<br>
+T - Got material surface - not needed<br>
+L - Move Tool Right (X+)<br>
+K - Move Tool Left (X-)<br>
+U - Move Tool Away (Y+)<br>
+J - Move Tool Towards (Y-)<br>
+2 - Move Tool down (Z-) - uses Jog Steps<br>
+8 - Move Tool up (Z+) - uses Jog Steps<br>
+Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.<br>
+G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.<br>
+S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.<br>
+<br>
+Typical use would be :-<br>
+<br>
+MDX-15 Power ON (workpiece moves to Viewing position)<br>
+Press View button (LED off) Tool moves to home position (x=0,y=0,z=zmax)<br>
+Run mdx15_sender.py<br>
+Press 2 to move down<br>
+Press 0 to switch off motor<br>
+Use 2 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece<br>
+Press Z to set Z0<br>
+Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn<br>
+Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.<br>
+E to exit<br>
+View (LED on) to unload<br>
+<br>
 Alternate file ..\test\B_Neale_272_B.prn
