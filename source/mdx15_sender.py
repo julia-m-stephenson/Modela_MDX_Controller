@@ -62,8 +62,10 @@ def initialize():
     ser.write(";IN;!MC1;PA;VS12;!VZ3;!PZ0,6050;PU136,322;\r\n".encode())
     
 def home():
-    print("H;")
-    ser.write("H;".encode())
+    command = "H;"
+    print(command)
+    #print(command.encode())
+    writeToMDX(command)
 
 def setZAtMaterialSurface():
     z_at_material_surface = z;
