@@ -56,10 +56,12 @@ Typical use would be :-<br>
 MDX-15 Power ON (workpiece moves to Viewing position)<br>
 Press View button (LED off) Tool moves to home position (x=0,y=0,z=zmax)<br>
 Run mdx15_sender.py<br>
-Press 2 to move down<br>
+Press 3 to move down<br>
 Press 0 to switch off motor<br>
-Use 2 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece<br>
+Use 3 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece<br>
 Press Z to set Z0<br>
+Use number or arrow keys to move X,Y position of workpiece.
+Press X to set x,y offsets
 Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn<br>
 Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.<br>
 E to exit<br>
