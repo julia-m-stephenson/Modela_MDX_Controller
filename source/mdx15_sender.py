@@ -212,10 +212,14 @@ def old_keyboad():
                 x+=step;
             case 'K':# Left
                 x-=step
+                if x<0:
+                    x=0
             case 'U':# Up
                 y+=step
             case 'J':#Down
                 y-=step
+                if y<0:
+                    y=0
             case 'G':#Goto Z 
                 usr = input("Enter Z ABS coordinate: ")
                 try:
@@ -291,10 +295,14 @@ def on_press(key):
                 x+=step;
             case 'K':# Left
                 x-=step
+                if x<0:
+                    x=0
             case 'U':# Up
                 y+=step
             case 'J':#Down
                 y-=step
+                if y<0:
+                    y=0
             case 'G':#Goto Z 
                 gkey_pressed=1
             case 'S':#Send file
@@ -323,10 +331,14 @@ def on_press(key):
                 x+=step;
             case keyboard.Key.left:# Left
                 x-=step
+                if x<0:
+                    x=0
             case keyboard.Key.up:# Up
                 y+=step
             case keyboard.Key.down:#Down
                 y-=step
+                if y<0:
+                    y=0
             case _:
                 print("WTF? dude! :")
                 print("E - Exit, 0 - Motor Off, 1 - Motor On")
