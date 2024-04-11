@@ -39,6 +39,7 @@ except serial.serialutil.SerialException:
     print ("COM1 not connected")
     exit()
 print(ser.name)
+
 #initialize()
 setZRange(-1120, 0)
 
@@ -58,8 +59,10 @@ def initialize():
     #time.sleep(1)
     #print("IN;!MC1;PA;\r\n".encode())
     #ser.write("IN;!MC1;PA;\r\n".encode())
-    print(";IN;!MC1;PA;VS12;!VZ3;!PZ0,6050;PU136,322;")
-    ser.write(";IN;!MC1;PA;VS12;!VZ3;!PZ0,6050;PU136,322;\r\n".encode())
+    command = ";IN;!MC1;PA;VS12;!VZ3;!PZ0,6050;PU136,322;\r\n"
+    print(command)
+    #print(command.encode())
+    writeToMDX(command)
     
 def home():
     command = "H;"
