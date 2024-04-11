@@ -107,6 +107,8 @@ def drillHole(depth):
     moveXYZ(x, y, start_z)
     
 def process_RML(filename):
+    global setZeroX, setZeroY
+
     if filename=='':
         filename="../test/B_Neale_51x16.prn"
     print("Opening" + filename)
@@ -119,6 +121,17 @@ def process_RML(filename):
                     if not cmd.isspace():
                         #print("CMD "+cmd)
                         if cmd != str(3) :#and cmd !="PU136,322" :#ETX or Initial Pen up
+                            if 'PU' in cmd or 'PD' in cmd:
+                                if cmd != 'PU' and cmd != 'PD': # we have x,y values
+                                    # need to move X,Y to offset values
+                                    cmd=cmd.strip()# remove leading/trailing whitespace
+                                    #print("CMD stripped"+cmd)
+                                    current_move=cmd[:2]#first two digits
+                                    current_x,current_y=[int(s) for s in cmd[2:].split(",") if s.isdigit()]#get two values seperated by comma after second letter
+                                    #print ("Current move "+current_move+"X:"+str(current_x)+"Y:"+str(current_y))
+                                    # Add Work Offsets
+                                    cmd = current_move + str(current_x+setZeroX)+','+str(current_y+setZeroY)
+                                    #print("CMD new"+cmd)
                             command = cmd+";"
                             print(command)
                             #tmp = input("Hit Enter to proces: ")
@@ -128,6 +141,15 @@ def process_RML(filename):
                             writeToMDX(command)
                         else:
                             print("Skipping ETX")
+            # Move to workpiece zero x,y, 100 (so a bit above the work piece)
+            command="Z"+str(setZeroX)+","+str(setZeroY)+",100;"
+            print(command)
+            writeToMDX(command)
+            # Move to Z0 (so we don't drag accross work piece
+            # But can potentially re-machine e.g. add a deeper cut by moving Z0 down a bit
+            command="Z"+str(setZeroX)+","+str(setZeroY)+",0;"
+            print(command)
+            writeToMDX(command)
     except (FileNotFoundError, OSError):
         print("Sorry that doesn't exist!.........")
         
