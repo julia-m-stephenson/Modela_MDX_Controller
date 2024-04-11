@@ -40,12 +40,12 @@ E - Exit the program gracefully<br>
 0 – spindle motor Off<br>
 1 – spindle motor On<br>
 T - Got material surface - not needed<br>
-L - Move Tool Right (X+)<br>
-K - Move Tool Left (X-)<br>
-U - Move Tool Away (Y+)<br>
-J - Move Tool Towards (Y-)<br>
-2 - Move Tool down (Z-) - uses Jog Steps<br>
-8 - Move Tool up (Z+) - uses Jog Steps<br>
+6 - Move Tool Right (X+)<br>
+4 - Move Tool Left (X-)<br>
+8 - Move Tool Away (Y+)<br>
+2 - Move Tool Towards (Y-)<br>
+3 - Move Tool down (Z-) - uses Jog Steps<br>
+9 - Move Tool up (Z+) - uses Jog Steps<br>
 Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.<br>
 G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.<br>
 S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.<br>
