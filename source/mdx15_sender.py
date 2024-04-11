@@ -9,8 +9,8 @@ x = 0
 y = 0
 z = 0
 step = 100; #steps to move each time
-setZeroX = 0
-setZeroY = 0
+setZeroX = 0# X Offset to move workpiece on build plate
+setZeroY = 0# Y Offset to move workpiece on build plate
 z_at_material_surface=0
 exit_flag=0
 key_pressed=0
@@ -130,7 +130,16 @@ def process_RML(filename):
                             print("Skipping ETX")
     except (FileNotFoundError, OSError):
         print("Sorry that doesn't exist!.........")
-
+        
+def setX0Y0():
+    global setZeroX, setZeroY
+    global x,y
+    
+    setZeroX = x# X Offset to move workpiece on build plate
+    setZeroY = y# Y Offset to move workpiece on build plate
+    
+    print("Work Offsets are X = " + str(setZeroX) + " Y = " + str(setZeroY));
+    
 def setZ0():
     global z
     z_at_material_surface = z;
@@ -307,6 +316,8 @@ def on_press(key):
                 gkey_pressed=1
             case 'S':#Send file
                 skey_pressed=1
+            case 'X':
+                setX0Y0()
             case 'Z':
                 setZ0()
             case _:

@@ -47,6 +47,7 @@ T - Got material surface - not needed<br>
 3 - Move Tool down (Z-) - uses Jog Steps<br>
 9 - Move Tool up (Z+) - uses Jog Steps<br>
 Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.<br>
+X - Set machine X0 and Y0 to current position. Allows placement of job anywhere on build plate<br>
 G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.<br>
 S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.<br>
 <br>
