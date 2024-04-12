@@ -29,6 +29,8 @@ Requirements:-
 
 Documentation:-
 
+The MDX-15 seems to use 1000ths of an inch as a step size, we can jog the tool movement by 100 steps (2.54mm) 10 steps (0.254mm) or 1 step (0.0254mm)
+
 The following keys are accepted.
 
 5 - Change Jog size - Cycles round 100, 10 or 1 step(s)<br>
@@ -48,7 +50,7 @@ T - Got material surface - not needed<br>
 9 - Move Tool up (Z+) - uses Jog Steps<br>
 Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.<br>
 X - Set machine X0 and Y0 to current position. Allows placement of job anywhere on build plate<br>
-G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.<br>
+G - Goto specified X,Y, Z coordinates e.g 1000,1000, -2000 will move tool down from Zmax to almost touching baseplate and in about 25mm from bottom corner, use with caution.<br>
 S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrave supplied by Roland.<br>
 <br>
 B - Get X,Y (min+max) from a file and move machine around the perimeter, this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrave supplied by Roland. The software will remember the filename and use it as the default. On subsequent calls if no filename provided it will use the previous bounds.<br>

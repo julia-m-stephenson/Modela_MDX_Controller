@@ -17,7 +17,8 @@ key_pressed=0
 skey_pressed=0
 gkey_pressed=0
 bkey_pressed=0
-
+z1=0
+z2=6050
 default_filename="../test/B_Neale_51x16.prn"
 # Used by Box command
 maxX=0
@@ -118,6 +119,9 @@ def displayBox():
     global setZeroX, setZeroY
     global default_filename
     global maxX, maxY, minX, minY
+    global z1,z2
+    
+    setZRange(z1,z2)# Values from file stops us going sky high
     
     # Bottom Left
     command = "PU" + str(minX+setZeroX)+','+str(minY+setZeroY)+";"
@@ -144,11 +148,22 @@ def displayBox():
     print(command)
     writeToMDX(command)
     
+    #Origin
+    command = "PU" + str(setZeroX)+','+str(setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+    setZRange(0,6050)# Default initialisation values.
+    command = "PD" + str(setZeroX)+','+str(setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+
 
 def getBoxFromRML(filename):
     global setZeroX, setZeroY
     global default_filename
     global maxX, maxY, minX, minY
+    global z1,z2
     
     if filename=='':
         filename=default_filename
@@ -183,6 +198,17 @@ def getBoxFromRML(filename):
                                             maxY=current_y
                                         elif current_y < minY:
                                             minY=current_y
+                            elif '!PZ' in cmd in cmd:# Extract Z1,Z2 required for this file (only really need Z2 to set PU height)
+                                try:
+                                    #print(cmd)
+                                    cmd=cmd.strip()# remove leading/trailing whitespace
+                                    new_z1,new_z2=[int(s) for s in cmd[3:].split(",")]#get two values seperated by comma 
+                                    print(new_z1,new_z2)
+                                    z1=new_z1
+                                    z2=new_z2
+                                except ValueError:
+                                    # Handle the exception
+                                    print('!PZWasn\'t an integer')
                         else:
                             print("Skipping ETX")
             # Show Box
@@ -446,11 +472,14 @@ while exit_flag == 0:
         # Try to flush the buffer
         while msvcrt.kbhit():
             msvcrt.getch()
-        usr = input("Enter Z ABS coordinate: ")
+        usr = input("Enter X,Y,Z ABS coordinate: ")
         try:
-            string_int = int(usr)
-            print(string_int)
-            z=string_int
+            #print(usr)
+            new_x,new_y,new_z=[int(s) for s in usr.split(",")]#get three values seperated by comma 
+            print(new_x,new_y,new_z)
+            x=new_x
+            y=new_y
+            z=new_z
         except ValueError:
             # Handle the exception
             print('Wasn\'t an integer')
