@@ -23,10 +23,19 @@ Requirements:-
 1) A Roland Modela MDX-15 (or MDX-20) others may be compatible.
 2) A PC with an actual physical serial port - most USB serial converters do not implement Hardware handshaking. I tested the software using a Dell Latitude E6410 with a Serial port provided by its docking station. This was running Windows 10 Pro 22H2 which is 64Bit.
 3) Recent Python 3.x install (I used v3.12.2)
-4) PySerial v3.5
+4) Libraies listed below
 5) The Roland 2.5D "printer" driver must not be assigned to the com port in use (currently only COM1 supported). I assigned it to COM2 which meant it could be used for material size and speeds and feeds for the Roland programs but couldn't directly print to the MDX-15. Instead you print to a file and use this program instead.
 6) A 9pin to 25pin NULL modem cable to connect the PC and 
 
+These libraries are used:-<br>
+<br>
+Package  Version<br>
+-------- -------<br>
+pip      24.0<br>
+pynput   1.7.6<br>
+pyserial 3.5<br>
+six      1.16.0<br>
+<br>
 Documentation:-
 
 The MDX-15 seems to use 1000ths of an inch as a step size, we can jog the tool movement by 100 steps (2.54mm) 10 steps (0.254mm) or 1 step (0.0254mm)
