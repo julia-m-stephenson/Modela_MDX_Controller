@@ -73,9 +73,9 @@ Press 3 to move down<br>
 Press 0 to switch off motor<br>
 Use 3 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touching workpiece<br>
 Press Z to set Z0<br>
-Use number or arrow keys to move X,Y position of workpiece.
-Press X to set x,y offsets
-Press B to set filename and move tool around the X,Y min max points.
+Use number or arrow keys to move X,Y position of workpiece.<br>
+Press X to set x,y offsets<br>
+Press B to set filename and move tool around the X,Y min max points.<br>
 Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn<br>
 Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.<br>
 E to exit<br>
