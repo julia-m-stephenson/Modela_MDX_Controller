@@ -16,6 +16,14 @@ exit_flag=0
 key_pressed=0
 skey_pressed=0
 gkey_pressed=0
+bkey_pressed=0
+
+default_filename="../test/B_Neale_51x16.prn"
+# Used by Box command
+maxX=0
+maxY=0
+minX=0x7FFFFF
+minY=0x7FFFFF
 
 def writeToMDX(command):
     ser.write(command.encode())
@@ -105,12 +113,93 @@ def drillHole(depth):
     setMotorMode(0);
     #initialize();
     moveXYZ(x, y, start_z)
+
+def displayBox():
+    global setZeroX, setZeroY
+    global default_filename
+    global maxX, maxY, minX, minY
     
+    # Bottom Left
+    command = "PU" + str(minX+setZeroX)+','+str(minY+setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+    # Top Left
+    command = "PU" + str(minX+setZeroX)+','+str(maxY+setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+    # Top Right
+    command = "PU" + str(maxX+setZeroX)+','+str(maxY+setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+    # Bottom Right
+    command = "PU" + str(maxX+setZeroX)+','+str(minY+setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+    # Bottom Left
+    command = "PU" + str(minX+setZeroX)+','+str(minY+setZeroY)+";"
+    print(command)
+    writeToMDX(command)
+    
+
+def getBoxFromRML(filename):
+    global setZeroX, setZeroY
+    global default_filename
+    global maxX, maxY, minX, minY
+    
+    if filename=='':
+        filename=default_filename
+        if maxX != 0 and maxY !=0:# we have processed a file
+            # use stored Box
+            displayBox()
+            return
+    default_filename=filename
+    print("Opening" + filename)
+    try:
+        with open(filename,"r") as f:
+            for line in f:
+                #print("GOT "+line)
+                cmds = line.split(";")
+                for cmd in cmds:
+                    if not cmd.isspace():
+                        #print("CMD "+cmd)
+                        if cmd != str(3) :#and cmd !="PU136,322" :#ETX or Initial Pen up
+                            if 'PU' in cmd or 'PD' in cmd:
+                                if cmd != 'PU' and cmd != 'PD': # we have x,y values
+                                    # need to move X,Y to offset values
+                                    cmd=cmd.strip()# remove leading/trailing whitespace
+                                    #print("CMD stripped"+cmd)
+                                    current_move=cmd[:2]#first two digits
+                                    if current_move == 'PD':# only process pen down
+                                        current_x,current_y=[int(s) for s in cmd[2:].split(",") if s.isdigit()]#get two values seperated by comma after second letter
+                                        if current_x > maxX:
+                                            maxX=current_x
+                                        elif current_x < minX:
+                                            minX=current_x
+                                        if current_y > maxY:
+                                            maxY=current_y
+                                        elif current_y < minY:
+                                            minY=current_y
+                        else:
+                            print("Skipping ETX")
+            # Show Box
+            print("maxX:" + str(maxX) + " maxY:" + str(maxY) + "minX:" + str(minX) + "minY:" + str(minY))
+            displayBox()
+            
+    except (FileNotFoundError, OSError):
+        print("Sorry that doesn't exist!.........")
+
 def process_RML(filename):
     global setZeroX, setZeroY
+    global default_filename
 
     if filename=='':
-        filename="../test/B_Neale_51x16.prn"
+        filename=default_filename
+    else:
+        default_filename=filename
     print("Opening" + filename)
     try:
         with open(filename,"r") as f:
@@ -190,90 +279,10 @@ def setZ0():
 
     #myPort.write("!ZO"+z+";");# why change it again!!!
     #print("!ZO"+z+";");
-def old_keyboad():
-    #TODO: Change follwing to a keyboard.listner
-    exit_flag=0
-    while exit_flag == 0:
-        usr = input("Enter command: ")
-        while not usr.isalnum():
-            print("Unacceptable "+usr)
-            usr = input("Enter command: ")    
-        match usr.upper():
-            case '5':
-                if step == 1:
-                    step=100
-                else:
-                    if step==100:
-                        step = 10
-                    else:
-                        if step==10:
-                            step = 1
-                print("Step ="+str(step))
-            case '9':
-                z += step
-                print("Z ="+str(z))
-            case '3':
-                z -= step
-                print("Z ="+str(z))
-            case 'M':
-                setZAtMaterialSurface();
-                print(str(toMM(z_at_material_surface)) + " mm");
-            case 'D':
-                print("drilling hole");
-                drillHole(150);
-                print("drilled hole")
-            case 'H':
-                home();
-                print("homed");
-            case 'I':
-                initialize();
-                print("initialized");
-            case 'E':
-                print("Exit -- finishing up")
-                break;
-            case '0':
-                setMotorMode(0);
-                print("motor off");
-            case '1':
-                setMotorMode(1);
-                print("motor on");
-            case 'T':
-                goToMaterialSurface();
-            case '6':# Right
-                x+=step;
-            case '4':# Left
-                x-=step
-                if x<0:
-                    x=0
-            case '8':# Up
-                y+=step
-            case '2':#Down
-                y-=step
-                if y<0:
-                    y=0
-            case 'G':#Goto Z 
-                usr = input("Enter Z ABS coordinate: ")
-                try:
-                    string_int = int(usr)
-                    print(string_int)
-                    z=string_int
-                except ValueError:
-                    # Handle the exception
-                    print('Please enter an integer')
-            case 'S':#Send file
-                usr = input("Enter filename ")
-                process_RML(usr)
-            case 'Z':
-                setZ0()
-            case _:
-                print("WTF? dude!")
-                print("E - Exit, 0 - Motor Off, 1 - Motor On")
-        print("next loop")
-        moveXYZ(x, y, z)
 
 def on_press(key):
     global exit_flag
-    global key_pressed, skey_pressed, gkey_pressed
+    global key_pressed, skey_pressed, gkey_pressed, bkey_pressed
     global x,y,z,step
     try:
         ch=key.char
@@ -338,6 +347,9 @@ def on_press(key):
                 gkey_pressed=1
             case 'S':#Send file
                 skey_pressed=1
+            case 'B':#Send file
+                bkey_pressed=1
+                print("bkey_pressed")
             case 'X':
                 setX0Y0()
             case 'Z':
@@ -396,7 +408,7 @@ def on_release(key):
     except AttributeError:
         #print('special key {0} released'.format(key))
         if key==keyboard.Key.down:
-            local_key=key_pressed#just some guff for exception block
+            local_key=key_pressed #just some guff for exception block
 # Collect events until released
 
 listener = keyboard.Listener(
@@ -442,15 +454,31 @@ while exit_flag == 0:
         except ValueError:
             # Handle the exception
             print('Wasn\'t an integer')
-        moveXYZ(x, y, z)
         print("You must not press a key until tool has stopped")
+        moveXYZ(x, y, z)
         # start new listener thread
         listener = keyboard.Listener(
             on_press=on_press,
             on_release=on_release)
         listener.start()
         listener.wait()
-
+    if bkey_pressed==1:
+        # Box File selected
+        bkey_pressed=0
+        # Stop listener or we cant enter file name
+        listener.stop()
+        # Try to flush the buffer
+        while msvcrt.kbhit():
+            msvcrt.getch()
+        usr = input("Enter filename ")
+        print("You must not press a key until tool has stopped")
+        getBoxFromRML(usr)
+        # start new listener thread
+        listener = keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release)
+        listener.start()
+        listener.wait()
     time.sleep (1)
 
     # Try to flush the buffer

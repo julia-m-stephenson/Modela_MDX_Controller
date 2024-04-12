@@ -49,7 +49,9 @@ T - Got material surface - not needed<br>
 Z - Set machines Z0 - use this to tell machine that tool is just touching workpiece Z height.<br>
 X - Set machine X0 and Y0 to current position. Allows placement of job anywhere on build plate<br>
 G - Goto specified Z height e.g G -2000 will move tool down from Zmax to almost touching baseplate use with caution.<br>
-S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrace supplied by Roland.<br>
+S - Send file this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrave supplied by Roland.<br>
+<br>
+B - Get X,Y (min+max) from a file and move machine around the perimeter, this is expecting the name of an ASCII text file following the RML-1 standard. e.g. as created by Dr. Engrave supplied by Roland. The software will remember the filename and use it as the default. On subsequent calls if no filename provided it will use the previous bounds.<br>
 <br>
 Typical use would be :-<br>
 <br>
@@ -62,6 +64,7 @@ Use 3 (Z down) and 5 (Jog step size) to move Z to correct positiontool just touc
 Press Z to set Z0<br>
 Use number or arrow keys to move X,Y position of workpiece.
 Press X to set x,y offsets
+Press B to set filename and move tool around the X,Y min max points.
 Press S to Send file e.g. Filename: ..\test\B_Neale_51x16.prn<br>
 Wait while engraving occurs (60 seconds) should see Zz when MDX buffer is full.<br>
 E to exit<br>
