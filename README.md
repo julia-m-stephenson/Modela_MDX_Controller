@@ -37,11 +37,11 @@ pyserial 3.5<br>
 six      1.16.0<br>
 <br>
 Documentation:-
-
-The MDX-15 seems to use 1000ths of an inch as a step size, we can jog the tool movement by 100 steps (2.54mm) 10 steps (0.254mm) or 1 step (0.0254mm)
-
-The following keys are accepted.
-
+.<br>
+According to the manual the MDX-15 seems to use 0.00984 inches as a step size, we can jog the tool movement by 100 steps (2.5mm) 10 steps (0.25mm) or 1 step (0.025mm).<br>
+.<br>
+The following keys are accepted..<br>
+.<br>
 5 - Change Jog size - Cycles round 100, 10 or 1 step(s)<br>
 M - Set Z at material surface - not needed supersceded by "Z"<br>
 D – drilling hole (150 steps deep)<br>
