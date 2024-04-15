@@ -190,20 +190,21 @@ def getBoxFromRML(filename):
                                     current_move=cmd[:2]#first two digits
                                     if current_move == 'PD':# only process pen down
                                         current_x,current_y=[int(s) for s in cmd[2:].split(",") if s.isdigit()]#get two values seperated by comma after second letter
+                                        #print ("PD", current_x,current_y)
                                         if current_x > maxX:
                                             maxX=current_x
-                                        elif current_x < minX:
+                                        if current_x < minX:
                                             minX=current_x
                                         if current_y > maxY:
                                             maxY=current_y
-                                        elif current_y < minY:
+                                        if current_y < minY:
                                             minY=current_y
                             elif '!PZ' in cmd in cmd:# Extract Z1,Z2 required for this file (only really need Z2 to set PU height)
                                 try:
                                     #print(cmd)
                                     cmd=cmd.strip()# remove leading/trailing whitespace
                                     new_z1,new_z2=[int(s) for s in cmd[3:].split(",")]#get two values seperated by comma 
-                                    print(new_z1,new_z2)
+                                    print("Z1,Z2=",new_z1,new_z2)
                                     z1=new_z1
                                     z2=new_z2
                                 except ValueError:
